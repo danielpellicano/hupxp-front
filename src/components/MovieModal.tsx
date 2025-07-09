@@ -41,7 +41,7 @@ export default function MovieModal({ movie, onClose }: Props) {
           animate={{ scale: 1 }}
           exit={{ scale: 0.95 }}
           transition={{ duration: 0.3 }}
-          className="bg-gray-900 text-white rounded-2xl max-w-5xl w-full overflow-hidden shadow-2xl relative"
+          className="bg-gray-900 text-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
         >
           <button
             className="absolute top-3 right-4 text-white text-3xl hover:text-red-400 transition cursor-pointer"

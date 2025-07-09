@@ -15,3 +15,22 @@ export async function getMovieDetails(id: number): Promise<MovieDetails> {
   const data = await apiFetch<MovieDetails>(url);
   return data;
 }
+
+export async function searchMovies(query: string): Promise<Movie[]> {
+  const res = await fetch(
+    `${API}/search/movie?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`
+  );
+  if (!res.ok) throw new Error("Erro ao buscar filmes");
+  const data = await res.json();
+  return data.results;
+}
+
+export async function getMoviesByGenre(genreId: number): Promise<Movie[]> {
+  const res = await fetch(
+    `${API}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=pt-BR`
+  );
+
+  if (!res.ok) throw new Error("Erro ao buscar filmes por gênero");
+  const data = await res.json();
+  return data.results;
+}
