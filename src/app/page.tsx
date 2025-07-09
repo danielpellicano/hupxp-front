@@ -72,7 +72,7 @@ export default function Home() {
       .then(setMovies)
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [debouncedQuery]);
+  }, [debouncedQuery, isSearching]);
 
   // Busca por gênero
   useEffect(() => {
@@ -91,6 +91,7 @@ export default function Home() {
   useEffect(() => {
     if (isSearching || isFiltering) return;
 
+    const currentLoader = loader.current; // 🔐 copia local
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -112,9 +113,10 @@ export default function Home() {
       { threshold: 1 }
     );
 
-    if (loader.current) observer.observe(loader.current);
+    if (currentLoader) observer.observe(currentLoader);
+
     return () => {
-      if (loader.current) observer.unobserve(loader.current);
+      if (currentLoader) observer.unobserve(currentLoader);
     };
   }, [loading, allMovies, visibleMovies, isSearching, isFiltering]);
 
@@ -137,7 +139,7 @@ export default function Home() {
             <>
               Resultado da busca para:{" "}
               <span className="underline text-rose-400">
-                "{debouncedQuery}"
+                &quot;{debouncedQuery}&quot;
               </span>
             </>
           ) : genreFilter ? (

@@ -1,16 +1,26 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import MovieGrid from "@/components/MovieGrid";
 import { Movie } from "@/types/movie";
-import { useState } from "react";
 import { within } from "@testing-library/react";
 
 // Mock do MovieModal para evitar dependência externa
-jest.mock("@/components/MovieModal", () => ({ movie, onClose }: any) => (
-  <div data-testid="modal">
-    <h1>{movie.title}</h1>
-    <button onClick={onClose}>Fechar</button>
-  </div>
-));
+// Mock do MovieModal para evitar dependência externa
+jest.mock("@/components/MovieModal", () => {
+  const MockModal = ({
+    movie,
+    onClose,
+  }: {
+    movie: { title: string };
+    onClose: () => void;
+  }) => (
+    <div data-testid="modal">
+      <h1>{movie.title}</h1>
+      <button onClick={onClose}>Fechar</button>
+    </div>
+  );
+  MockModal.displayName = "MockMovieModal";
+  return MockModal;
+});
 
 const mockMovies: Movie[] = [
   {

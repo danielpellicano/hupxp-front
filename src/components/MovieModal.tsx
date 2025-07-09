@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Movie, MovieDetails } from "@/types/movie";
 import { getMovieDetails } from "@/services/tmdb";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface Props {
   movie: Movie;
@@ -51,12 +52,14 @@ export default function MovieModal({ movie, onClose }: Props) {
           </button>
 
           <div className="flex flex-col md:flex-row">
-            <img
+            <Image
               src={`https://image.tmdb.org/t/p/w500${details.poster_path}`}
               alt={details.title}
+              width={500}
+              height={750}
               className="w-full md:w-1/3 object-cover rounded-l-xl"
+              priority
             />
-
             <div className="p-6 flex-1">
               <h2 className="text-3xl font-bold mb-1 text-rose-400">
                 {details.title}
@@ -109,10 +112,13 @@ export default function MovieModal({ movie, onClose }: Props) {
                       className="min-w-[90px] text-center text-gray-200"
                     >
                       {actor.profile_path ? (
-                        <img
+                        <Image
                           src={`https://image.tmdb.org/t/p/w185${actor.profile_path}`}
                           alt={actor.name}
                           className="w-20 h-20 object-cover rounded-full mx-auto border-2 border-gray-600"
+                          priority
+                          width={77}
+                          height={77}
                         />
                       ) : (
                         <div className="w-20 h-20 rounded-full bg-gray-600 mx-auto" />
